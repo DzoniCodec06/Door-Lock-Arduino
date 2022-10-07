@@ -34,6 +34,8 @@ char c;
 char password[4] = "123A";
 char inKeys[4];
 
+bool pass_change = false;
+
 void setup() {
   Serial.begin(9600);
   lcd.init();
@@ -52,16 +54,30 @@ void setup() {
 
 void loop() {
   key = keypad.getKey();
-  if (key != 'C' && key) {
-    lcd.setCursor(n, 1);
-    inKeys[n] = key;
-    lcd.print(inKeys[n]);
-    n++;
-  } else if (key == 'C') {
-    update_display();
-  } else return;
+  if (key) {
+    if (!pass_change) {
+        if (key == 'C') update_display();
+        else if (key == '#') {
+          pass_change = true;
+          n = 0;
+          lcd.clear();
+          lcd.setCursor(n, 0);
+          lcd.print("Change password:");
+        } else {
+          enter_pass(key);
+        } 
+        check_pass();  
+    } else {
+      change_password(key);
+    }
+  }
+}
 
-  check_pass();
+void enter_pass(char k) {
+  lcd.setCursor(n, 1);
+  inKeys[n] = key;
+  lcd.print("*"); // This is for printing * instead of keys 
+  n++;
 }
 
 void update_display() {
@@ -71,6 +87,20 @@ void update_display() {
   lcd.print("Enter password: ");
   lcd.setCursor(0, 1);
 }
+
+void change_password(char k) {
+  if (key && n < 4) {
+    lcd.setCursor(n, 1);
+    password[n] = key;
+    lcd.print(password[n]);
+    n++;
+  }
+  else {
+    pass_change = false;
+    update_display();
+  }
+}
+
 
 void check_pass() {
   if (n == 4) {

@@ -10,6 +10,10 @@ If you enter incorrect password, reley wont turn on and **red LED** will brite f
 
 If you type password incorect before checking, press `C` button to clear written password and write it again.
 
+## Changing password
+By clicking on `#` button it will print change password on screen. Then you need to enter new password and you can use it later. 
+It has one bug and it's when you want to change password, after you enter 4 characters, you will need te press any character on the end to 
+apply password. I will figure it out how to remove that bug, so when you enter 4 characters, it will instantly save that password.
 ## Wire connections
 
 *I need to attach image*
